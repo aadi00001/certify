@@ -4,21 +4,161 @@
   --bg:#f3f4f6;
   --card:#fff;
 }
+
+/* Reset / box-sizing */
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#111;background:var(--bg)}
 
-.card{max-width:720px;background:var(--card);margin:48px auto;padding:36px;border-radius:12px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
-.card.small{max-width:640px;padding:28px;margin:96px auto}
-.icon{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto}
-.title{color:var(--accent);text-align:center;font-size:28px;margin:18px 0 8px}
-.subtitle{text-align:center;color:var(--muted);margin:0 0 20px}
-.info{margin:18px 0 24px;color:#111;font-size:16px;line-height:1.9}
-.btn{display:block;width:100%;padding:14px 18px;border-radius:10px;background:var(--accent);color:#fff;border:0;font-weight:600;font-size:16px;cursor:pointer}
-.bottom-bar{position:fixed;left:0;right:0;bottom:0;height:66px;background:#1f2937;color:#fff;display:flex;align-items:center;justify-content:center}
-.url{opacity:0.9}
-.label{color:#111;font-weight:600;margin-bottom:6px;display:block}
-.example{font-size:13px;color:var(--muted);font-weight:400}
-.input{width:100%;padding:12px;border-radius:10px;border:1px solid #e6e7eb;margin:10px 0 18px;font-size:16px}
-.center{text-align:center}
+/* Make body full-height and center the content */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #111;
+  background: var(--bg);
+  /* center horizontally + vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding: 20px; /* small safe padding for mobile */
+}
 
-@media (max-width:520px){.card{margin:20px 14px;padding:20px}.icon{width:64px;height:64px}}
+/* Card base — preserved look, but remove large top/bottom margins (we center with flex) */
+.card {
+  width: 100%;
+  max-width: 720px;
+  background: var(--card);
+  padding: 36px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  margin: 0 auto; /* center horizontally inside flex layout */
+}
+
+/* Keep small variant for verify page if used */
+.card.small {
+  max-width: 640px;
+  padding: 28px;
+}
+
+/* Icon circle */
+.icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin: 0 auto 14px;
+}
+
+/* Titles and text */
+.title {
+  color: var(--accent);
+  text-align: center;
+  font-size: 28px;
+  margin: 8px 0 8px;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+
+.info {
+  margin: 18px 0 24px;
+  color: #111;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* Buttons */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.btn:hover {
+  filter: brightness(.95);
+}
+
+/* Footer / bottom-bar - hide if not used */
+.bottom-bar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 66px;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.url {
+  opacity: 0.9;
+}
+
+/* Labels, input, examples */
+.label {
+  color: #111;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.example,
+.hint {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e6e7eb;
+  margin: 10px 0 18px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color .12s ease, box-shadow .12s ease;
+}
+
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px rgba(93,61,245,0.06);
+}
+
+/* Center helper */
+.center {
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 520px) {
+  .card {
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 14px;
+  }
+  .icon{ width:64px; height:64px; font-size:32px; }
+  .title{ font-size:22px; }
+  .input{ padding:12px; font-size:15px; }
+  .btn{ padding:12px; font-size:15px; border-radius: 10px; }
+}
