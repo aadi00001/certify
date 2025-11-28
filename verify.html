@@ -3,25 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Verify Certificate Id</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Verify Certificate — Certify</title>
+
+  <!-- root-relative CSS so it works on any Netlify subdomain / path -->
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <main class="card small">
-    <h1 class="title center">Verify Your Certificate Id</h1>
+  <main class="card verify-card">
+    <h1 class="title verify-title">Verify Your Certificate Id</h1>
 
-    <label class="label">Verification Code
-      <div class="example">Example * 08-0987-23456</div>
+    <label for="codeInput" class="label">
+      Verification Code
+      <div class="hint">Example • 08-0987-23456</div>
     </label>
 
-    <input id="codeInput" type="text" class="input" aria-label="verification code">
-    <button id="verifyBtn" class="btn">Verify</button>
+    <input id="codeInput" type="text" class="input" placeholder="Enter your code" aria-label="verification code" />
+
+    <button id="verifyBtn" class="btn verify-btn">Verify</button>
   </main>
 
   <footer class="bottom-bar">
     <div class="url">api.certifypro.in</div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- root-relative JS so it works on any Netlify subdomain / path -->
+  <script src="/script.js"></script>
 </body>
 </html>
