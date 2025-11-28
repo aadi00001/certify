@@ -4,11 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Certificate Verified — Certify</title>
+
+  <!-- Root-relative so it works on any Netlify site -->
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <main class="card">
-    <div class="icon">✓</div>
+    <div class="icon" aria-hidden="true">✓</div>
+
     <h1 class="title">Certificate has been<br>verified.</h1>
     <p class="subtitle">The student's information has been<br>successfully verified.</p>
 
