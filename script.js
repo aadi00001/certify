@@ -17,7 +17,7 @@ if (goVerify) {
 // MANUAL VERIFY ONLY
 // ---------------------
 function doVerify(val) {
-  const correct = "08-2025-69364";
+  const correct = "08202569364";
 
   if (val === correct) {
     window.location.href = SITE_B + "/";
