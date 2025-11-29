@@ -3,28 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Certificate Verified — Certify</title>
-
-  <!-- Root-relative so it works on any Netlify site -->
-  <link rel="stylesheet" href="/styles.css">
+  <title>Certificate Verified</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="card">
-    <div class="icon" aria-hidden="true">✓</div>
-
-    <h1 class="title">Certificate has been<br>verified.</h1>
-    <p class="subtitle">The student's information has been<br>successfully verified.</p>
-
-    <div class="info">
-      <div><strong>Name:</strong> Devansh Karki</div>
-      <div><strong>Email:</strong> devanshkarki5@gmail.com</div>
-      <div><strong>Domain:</strong> Web Development</div>
-      <div><strong>Duration:</strong> 2 Month ( 1st July 2025 - 30th August 2025 )</div>
+    <div class="check" aria-hidden="true">
+      <!-- check icon -->
+      <svg width="40" height="40" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
     </div>
 
-    <button id="goVerify" class="btn">Go to the Certification Verification</button>
+    <h1 id="title" class="title">Certificate has been verified.</h1>
+    <p class="lead subtitle">The student's information has been successfully verified.</p>
+
+    <div class="info" id="info">
+      <p><b>Name:</b> <span id="name">devansh karki</span></p>
+      <p><b>Email:</b> <span id="email">devanshkarki5@gmail.com</span></p>
+      <p><b>Domain:</b> <span id="domain">web development</span></p>
+      <p><b>Duration:</b> <span id="duration">1 Month ( 1st May 2025 - 1st June 2025 )</span></p>
+    </div>
+
+    <a class="btn cta" id="back-btn" href="verify.html">Go to the Certification Verification</a>
+    <p class="small footer">Scanned from QR or verified via ID.</p>
   </main>
 
-  <script src="/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
