@@ -15,16 +15,15 @@ html, body {
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   color: #111;
   background: var(--bg);
-  /* center horizontally + vertically */
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   overflow-x: hidden;
-  padding: 20px; /* small safe padding for mobile */
+  padding: 20px;
 }
 
-/* Card base — preserved look, but remove large top/bottom margins (we center with flex) */
+/* Card base */
 .card {
   width: 100%;
   max-width: 720px;
@@ -32,10 +31,9 @@ html, body {
   padding: 36px;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(16,24,40,0.06);
-  margin: 0 auto; /* center horizontally inside flex layout */
+  margin: 0 auto;
 }
 
-/* Keep small variant for verify page if used */
 .card.small {
   max-width: 640px;
   padding: 28px;
@@ -95,7 +93,7 @@ html, body {
   filter: brightness(.95);
 }
 
-/* Footer / bottom-bar - hide if not used */
+/* Footer / bottom-bar - hidden by default */
 .bottom-bar {
   display: none;
   position: fixed;
@@ -105,7 +103,6 @@ html, body {
   height: 66px;
   background: #1f2937;
   color: #fff;
-  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -150,6 +147,12 @@ html, body {
   text-align: center;
 }
 
+/* Error text */
+.error {
+  color: #b00020;
+  font-size: 14px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 520px) {
   .card {
@@ -161,4 +164,61 @@ html, body {
   .title{ font-size:22px; }
   .input{ padding:12px; font-size:15px; }
   .btn{ padding:12px; font-size:15px; border-radius: 10px; }
+}
+
+/* -------------------------
+   Compatibility: adapt older HTML ids/classes to the main theme
+   ------------------------- */
+
+.check {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #e9f0ff;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin: 0 auto 14px;
+}
+
+.lead, p.lead, .subtitle {
+  color: var(--muted);
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+#code, #codeInput, input[type="text"], input[type="search"], .input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e6e7eb;
+  margin: 10px 0 18px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color .12s ease, box-shadow .12s ease;
+}
+
+#code:focus, #codeInput:focus, .input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px rgba(93,61,245,0.06);
+}
+
+#verifyBtn, .btn {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+#verifyBtn:hover, .btn:hover {
+  filter: brightness(.95);
 }
