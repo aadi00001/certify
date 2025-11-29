@@ -1,29 +1,20 @@
-// script.js — single-site version
-// Behavior:
-// - If index page is opened: use query params OR localStorage OR defaultPayload (in that order)
-// - If verify page is used: verify ID, save payload, redirect to index (with params)
+// script.js — single-site, no query params in URL
+// Save certificate payload to localStorage and show it on index.html
 
-// Demo ID (for client-side demo)
 const CORRECT_ID = "08202569364";
 
-// Default certificate payload (will show if no params & no storage)
+// Default certificate payload (shown when site opened with no prior verification)
 const defaultPayload = {
   id: CORRECT_ID,
   name: 'Devansh Karki',
   email: 'devanshkarki5@gmail.com',
-  domain: 'Web Development',
-  duration: '2 Month ( 1st July 2025 - 1st September 2025 )'
+  domain: 'web development',
+  duration: '2 Months ( 1st July 2025 - 1st September 2025 )'
 };
 
-// Build certificate page URL with encoded query params (relative)
+// Build certificate page URL (clean root, no personal data in URL)
 function buildCertificateUrl(payload = {}) {
-  const params = new URLSearchParams();
-  if (payload.id) params.set('id', payload.id);
-  if (payload.name) params.set('name', payload.name);
-  if (payload.email) params.set('email', payload.email);
-  if (payload.domain) params.set('domain', payload.domain);
-  if (payload.duration) params.set('duration', payload.duration);
-  return '/?' + params.toString();
+  return '/';
 }
 
 // Save payload to localStorage
@@ -48,7 +39,7 @@ function readPayloadFromStorage({ clear = false } = {}) {
   }
 }
 
-// Decode helper
+// Decode helper (safe)
 function decodeIfNeeded(s) {
   if (!s) return s;
   try { return decodeURIComponent(s); } catch(e) { return s; }
@@ -82,31 +73,29 @@ function initVerifyPage() {
   const verifyBtn = document.getElementById('verifyBtn');
   if (!input || !verifyBtn) return;
 
-  // Prefill input from ?id= if present (prefill only)
-  const params = new URLSearchParams(window.location.search);
-  const idFromUrl = params.get('id');
-  if (idFromUrl) input.value = idFromUrl;
-
-  // Enter triggers verify
+  // Enter key triggers verify
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') verifyBtn.click();
   });
 
+  // Click verify
   verifyBtn.addEventListener('click', () => {
     const val = (input.value || '').trim();
     if (!val) {
       showVerifyError('Please enter certificate id.', verifyBtn);
       return;
     }
+
     if (val === CORRECT_ID) {
       const payload = {
         id: val,
-        name: 'Devansh karki',
+        name: 'Devansh Karki',
         email: 'devanshkarki5@gmail.com',
-        domain: 'Web Development',
-        duration: '2 Month ( 1st July 2025 - 1st September 2025 )'
+        domain: 'web development',
+        duration: '2 Months ( 1st July 2025 - 1st September 2025 )'
       };
-      // save and redirect
+
+      // Save for fallback and redirect to clean URL
       savePayloadToStorage(payload);
       window.location.href = buildCertificateUrl(payload);
     } else {
@@ -128,44 +117,16 @@ function populateCertificateFields(payload) {
 }
 
 function initCertificatePage() {
-  const params = new URLSearchParams(window.location.search);
-
-  // 1) If query params present, use them
-  if (params.get('id')) {
-    const payload = {
-      id: params.get('id'),
-      name: decodeIfNeeded(params.get('name') || ''),
-      email: decodeIfNeeded(params.get('email') || ''),
-      domain: decodeIfNeeded(params.get('domain') || ''),
-      duration: decodeIfNeeded(params.get('duration') || '')
-    };
-    // persist for reloads and populate
-    savePayloadToStorage(payload);
-    populateCertificateFields(payload);
-    return;
-  }
-
-  // 2) If nothing in URL, check localStorage
+  // 1) Try to read payload from localStorage
   const stored = readPayloadFromStorage({ clear: false });
   if (stored && stored.id) {
     populateCertificateFields(stored);
-    // update URL to show params (non-reload)
-    try {
-      const newUrl = buildCertificateUrl(stored);
-      history.replaceState(null, '', newUrl);
-    } catch(e){}
     return;
   }
 
-  // 3) If nothing in storage either, use the default payload
+  // 2) No stored data — show default payload and save it
   populateCertificateFields(defaultPayload);
-  // also save default so reloads keep it
   savePayloadToStorage(defaultPayload);
-  // and update the URL (so it's shareable)
-  try {
-    const newUrl = buildCertificateUrl(defaultPayload);
-    history.replaceState(null, '', newUrl);
-  } catch(e){}
 }
 
 // ---------- Back button ----------
