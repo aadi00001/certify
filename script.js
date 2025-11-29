@@ -9,10 +9,10 @@ const CORRECT_ID = "08202569364";
 // Default certificate payload (will show if no params & no storage)
 const defaultPayload = {
   id: CORRECT_ID,
-  name: 'devansh karki',
+  name: 'Devansh Karki',
   email: 'devanshkarki5@gmail.com',
-  domain: 'web development',
-  duration: '1 Month ( 1st May 2025 - 1st June 2025 )'
+  domain: 'Web Development',
+  duration: '2 Month ( 1st July 2025 - 1st September 2025 )'
 };
 
 // Build certificate page URL with encoded query params (relative)
