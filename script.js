@@ -1,6 +1,19 @@
-// script.js — single-site version with localStorage fallback
+// script.js — single-site version
+// Behavior:
+// - If index page is opened: use query params OR localStorage OR defaultPayload (in that order)
+// - If verify page is used: verify ID, save payload, redirect to index (with params)
 
+// Demo ID (for client-side demo)
 const CORRECT_ID = "08202569364";
+
+// Default certificate payload (will show if no params & no storage)
+const defaultPayload = {
+  id: CORRECT_ID,
+  name: 'devansh karki',
+  email: 'devanshkarki5@gmail.com',
+  domain: 'web development',
+  duration: '1 Month ( 1st May 2025 - 1st June 2025 )'
+};
 
 // Build certificate page URL with encoded query params (relative)
 function buildCertificateUrl(payload = {}) {
@@ -18,13 +31,12 @@ function savePayloadToStorage(payload = {}) {
   try {
     localStorage.setItem('cert_payload', JSON.stringify(payload));
   } catch (e) {
-    // ignore storage errors (e.g. private mode)
     console.warn('Could not save payload to localStorage', e);
   }
 }
 
-// Read payload from localStorage (and optionally clear it)
-function readPayloadFromStorage({ clear = true } = {}) {
+// Read payload from localStorage
+function readPayloadFromStorage({ clear = false } = {}) {
   try {
     const raw = localStorage.getItem('cert_payload');
     if (!raw) return null;
@@ -36,7 +48,13 @@ function readPayloadFromStorage({ clear = true } = {}) {
   }
 }
 
-// Show errors (either in #verifyError element or by using the button text)
+// Decode helper
+function decodeIfNeeded(s) {
+  if (!s) return s;
+  try { return decodeURIComponent(s); } catch(e) { return s; }
+}
+
+// Show errors (either in #verifyError element or via button text)
 function showVerifyError(message, buttonEl) {
   const existingErr = document.getElementById('verifyError');
   if (existingErr) {
@@ -45,7 +63,6 @@ function showVerifyError(message, buttonEl) {
     setTimeout(() => { existingErr.style.display = 'none'; }, 3000);
     return;
   }
-
   if (buttonEl) {
     const original = buttonEl.textContent;
     buttonEl.textContent = message;
@@ -59,7 +76,7 @@ function showVerifyError(message, buttonEl) {
   }
 }
 
-// Initialize handlers on the verify page
+// ---------- VERIFY PAGE ----------
 function initVerifyPage() {
   const input = document.getElementById('codeInput');
   const verifyBtn = document.getElementById('verifyBtn');
@@ -70,19 +87,17 @@ function initVerifyPage() {
   const idFromUrl = params.get('id');
   if (idFromUrl) input.value = idFromUrl;
 
-  // Press Enter to verify
+  // Enter triggers verify
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') verifyBtn.click();
   });
 
-  // Click verify
   verifyBtn.addEventListener('click', () => {
     const val = (input.value || '').trim();
     if (!val) {
       showVerifyError('Please enter certificate id.', verifyBtn);
       return;
     }
-
     if (val === CORRECT_ID) {
       const payload = {
         id: val,
@@ -91,11 +106,8 @@ function initVerifyPage() {
         domain: 'web development',
         duration: '1 Month ( 1st May 2025 - 1st June 2025 )'
       };
-
-      // save for fallback (so a reload of / still shows info)
+      // save and redirect
       savePayloadToStorage(payload);
-
-      // redirect (keeps the existing query param behavior)
       window.location.href = buildCertificateUrl(payload);
     } else {
       showVerifyError('Certificate ID not found. Please check and try again.', verifyBtn);
@@ -103,49 +115,60 @@ function initVerifyPage() {
   });
 }
 
-// Initialize the certificate display on index page using query params or storage
-function initCertificatePage() {
-  const params = new URLSearchParams(window.location.search);
-  let payload = null;
-
-  if (params.get('id')) {
-    payload = {
-      id: params.get('id'),
-      name: params.get('name'),
-      email: params.get('email'),
-      domain: params.get('domain'),
-      duration: params.get('duration')
-    };
-  } else {
-    // fallback to localStorage if no query params present
-    const stored = readPayloadFromStorage({ clear: false });
-    if (stored && stored.id) {
-      payload = stored;
-      // optional: once we populate from storage, update the URL without reloading
-      const newUrl = buildCertificateUrl(stored);
-      try {
-        history.replaceState(null, '', newUrl);
-      } catch (e) {
-        // ignore
-      }
-      // clear storage so it doesn't persist forever
-      try { localStorage.removeItem('cert_payload'); } catch (e) {}
-    }
-  }
-
-  if (!payload) return;
-
+// ---------- CERTIFICATE PAGE ----------
+function populateCertificateFields(payload) {
+  if (!payload) return false;
   const map = ['name','email','domain','duration'];
   map.forEach(key => {
     const v = payload[key];
-    if (v) {
-      const el = document.getElementById(key);
-      if (el) el.textContent = decodeURIComponent(v);
-    }
+    const el = document.getElementById(key);
+    if (el) el.textContent = decodeIfNeeded(v);
   });
+  return true;
 }
 
-// Back button handler
+function initCertificatePage() {
+  const params = new URLSearchParams(window.location.search);
+
+  // 1) If query params present, use them
+  if (params.get('id')) {
+    const payload = {
+      id: params.get('id'),
+      name: decodeIfNeeded(params.get('name') || ''),
+      email: decodeIfNeeded(params.get('email') || ''),
+      domain: decodeIfNeeded(params.get('domain') || ''),
+      duration: decodeIfNeeded(params.get('duration') || '')
+    };
+    // persist for reloads and populate
+    savePayloadToStorage(payload);
+    populateCertificateFields(payload);
+    return;
+  }
+
+  // 2) If nothing in URL, check localStorage
+  const stored = readPayloadFromStorage({ clear: false });
+  if (stored && stored.id) {
+    populateCertificateFields(stored);
+    // update URL to show params (non-reload)
+    try {
+      const newUrl = buildCertificateUrl(stored);
+      history.replaceState(null, '', newUrl);
+    } catch(e){}
+    return;
+  }
+
+  // 3) If nothing in storage either, use the default payload
+  populateCertificateFields(defaultPayload);
+  // also save default so reloads keep it
+  savePayloadToStorage(defaultPayload);
+  // and update the URL (so it's shareable)
+  try {
+    const newUrl = buildCertificateUrl(defaultPayload);
+    history.replaceState(null, '', newUrl);
+  } catch(e){}
+}
+
+// ---------- Back button ----------
 function initBackButton() {
   const goVerifyBtn = document.getElementById('goVerify');
   if (!goVerifyBtn) return;
@@ -155,7 +178,7 @@ function initBackButton() {
   });
 }
 
-// Auto-initialize
+// ---------- Auto init ----------
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('codeInput')) initVerifyPage();
   if (document.getElementById('name')) initCertificatePage();
