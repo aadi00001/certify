@@ -1,17 +1,23 @@
 // FINAL SCRIPT — opens verify page with ?id= but requires manual verification
 
-const SITE_B = "https://certificate-id.netlify.app"; 
+// FINAL SCRIPT — opens main certificate page after QR scan
+
+// SITE A = QR verification page
 const SITE_A = "https://certificate-id-verification.netlify.app/page/qr-verification";
 
+// SITE B = main certificate home page
+const SITE_B = "https://certificate-id.netlify.app";
+
 // ---------------------
-// GO TO VERIFICATION PAGE (button on main page)
+// GO TO MAIN CERTIFICATE PAGE
 // ---------------------
 const goVerify = document.getElementById('goVerify');
 if (goVerify) {
   goVerify.addEventListener('click', () => {
-    window.location.href = SITE_A;
+    window.location.href = SITE_B;   // Button takes you to certificate-id.netlify.app
   });
 }
+
 
 // ---------------------
 // MANUAL VERIFY ONLY
