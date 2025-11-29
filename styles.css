@@ -5,14 +5,12 @@
   --card:#fff;
 }
 
-/* Reset / box-sizing */
 *{box-sizing:border-box}
 
-/* Make body full-height and center the content */
 html, body {
   height: 100%;
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
   color: #111;
   background: var(--bg);
   display: flex;
@@ -23,7 +21,6 @@ html, body {
   padding: 20px;
 }
 
-/* Card base */
 .card {
   width: 100%;
   max-width: 720px;
@@ -34,12 +31,6 @@ html, body {
   margin: 0 auto;
 }
 
-.card.small {
-  max-width: 640px;
-  padding: 28px;
-}
-
-/* Icon circle */
 .icon {
   width: 72px;
   height: 72px;
@@ -53,7 +44,6 @@ html, body {
   margin: 0 auto 14px;
 }
 
-/* Titles and text */
 .title {
   color: var(--accent);
   text-align: center;
@@ -74,7 +64,6 @@ html, body {
   line-height: 1.9;
 }
 
-/* Buttons */
 .btn {
   display: block;
   width: 100%;
@@ -93,43 +82,31 @@ html, body {
   filter: brightness(.95);
 }
 
-/* Footer / bottom-bar - hidden by default */
-.bottom-bar {
-  display: none;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 66px;
-  background: #1f2937;
-  color: #fff;
-  align-items: center;
-  justify-content: center;
+/* Center class */
+.center {
+  text-align: center;
 }
 
-.url {
-  opacity: 0.9;
+/* Updated button (center + no underline) */
+.go-btn {
+  display: inline-block;
+  text-decoration: none;
+  width: auto;
+  padding: 14px 24px;
+  margin: 0 auto;
 }
 
-/* Labels, input, examples */
-.label {
-  color: #111;
-  font-weight: 600;
-  margin-bottom: 6px;
-  display: block;
-}
-
-.example,
-.hint {
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 400;
+/* Hide the scan note (just in case it exists) */
+.scan-note {
+  display: none !important;
 }
 
 .input {
   width: 100%;
   padding: 12px;
   border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   border: 1px solid #e6e7eb;
   margin: 10px 0 18px;
   font-size: 16px;
@@ -142,83 +119,14 @@ html, body {
   box-shadow: 0 4px 14px rgba(93,61,245,0.06);
 }
 
-/* Center helper */
-.center {
-  text-align: center;
-}
-
-/* Error text */
-.error {
-  color: #b00020;
-  font-size: 14px;
-}
-
-/* Responsive adjustments */
 @media (max-width: 520px) {
   .card {
-    margin: 0 auto;
     padding: 20px;
     border-radius: 14px;
   }
   .icon{ width:64px; height:64px; font-size:32px; }
   .title{ font-size:22px; }
-  .input{ padding:12px; font-size:15px; }
-  .btn{ padding:12px; font-size:15px; border-radius: 10px; }
+  .input{ font-size:15px; }
+  .btn{ font-size:15px; border-radius: 10px; }
 }
 
-/* -------------------------
-   Compatibility: adapt older HTML ids/classes to the main theme
-   ------------------------- */
-
-.check {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: #e9f0ff;
-  color: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  margin: 0 auto 14px;
-}
-
-.lead, p.lead, .subtitle {
-  color: var(--muted);
-  margin: 0 0 20px;
-  text-align: center;
-}
-
-#code, #codeInput, input[type="text"], input[type="search"], .input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #e6e7eb;
-  margin: 10px 0 18px;
-  font-size: 16px;
-  outline: none;
-  transition: border-color .12s ease, box-shadow .12s ease;
-}
-
-#code:focus, #codeInput:focus, .input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 4px 14px rgba(93,61,245,0.06);
-}
-
-#verifyBtn, .btn {
-  display: block;
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 10px;
-  background: var(--accent);
-  color: #fff;
-  border: 0;
-  font-weight: 600;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background .15s ease;
-}
-
-#verifyBtn:hover, .btn:hover {
-  filter: brightness(.95);
-}
