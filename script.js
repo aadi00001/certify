@@ -101,10 +101,10 @@ function initVerifyPage() {
     if (val === CORRECT_ID) {
       const payload = {
         id: val,
-        name: 'devansh karki',
+        name: 'Devansh karki',
         email: 'devanshkarki5@gmail.com',
-        domain: 'web development',
-        duration: '1 Month ( 1st May 2025 - 1st June 2025 )'
+        domain: 'Web Development',
+        duration: '2 Month ( 1st July 2025 - 1st September 2025 )'
       };
       // save and redirect
       savePayloadToStorage(payload);
