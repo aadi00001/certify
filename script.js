@@ -3,10 +3,10 @@
 // FINAL SCRIPT — opens main certificate page after QR scan
 
 // SITE A = QR verification page
-const SITE_A = "https://certificate-id-verification.netlify.app/page/qr-verification";
+const SITE_A = "https://certificate-id-verificationweb.netlify.app/page/qr-verification";
 
 // SITE B = main certificate home page
-const SITE_B = "https://certificate-id.netlify.app";
+const SITE_B = "https://certificate-id-verify.netlify.app";
 
 // ---------------------
 // GO TO MAIN CERTIFICATE PAGE
