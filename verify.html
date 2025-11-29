@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Verify Certificate — Certify</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="card verify-card">
@@ -17,9 +17,11 @@
 
     <input id="codeInput" type="text" class="input" placeholder="Enter your code" aria-label="verification code" />
 
+    <div id="verifyError" class="error" style="display:none; text-align:left; margin-bottom:12px;"></div>
+
     <button id="verifyBtn" class="btn verify-btn">Verify</button>
   </main>
 
-  <script src="/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
